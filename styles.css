@@ -208,3 +208,7 @@ body {
 .alert.hide {
   opacity: 0;
 }
+
+button[data-delete] svg {
+  pointer-events: none;
+}
