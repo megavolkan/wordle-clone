@@ -15294,6 +15294,7 @@ const dictionary = [
 const guessGrid = document.querySelector('[data-guess-grid]')
 const WORD_LENGTH = 5
 
+const alertContainer = document.querySelector('[data-alert-container]')
 const offsetFromDate = new Date(2022, 0, 1)
 const msOffset = Date.now() - offsetFromDate
 const dayOffset = msOffset / 1000 / 60 / 60 / 24
@@ -15327,7 +15328,6 @@ function handleMouseClick(e) {
   }
 }
 function handleKeyPress(e) {
-  console.log(e)
   if (e.key === 'Enter') {
     submitGuess()
     return
@@ -15368,11 +15368,35 @@ function submitGuess() {
   if (activeTiles.length !== WORD_LENGTH) {
     showAlert('Not Enough Letters')
     shakeTiles(activeTiles)
+    return
   }
 
+  
 }
 
 function getActiveTiles() {
   return guessGrid.querySelectorAll('[data-state="active"]')
 }
 
+function showAlert(message, duration = 1000) {
+  const alert = document.createElement('div')
+  alert.textContent = message
+  alert.classList.add('alert')
+  alertContainer.prepend(alert)
+
+  if (duration == null) return
+
+  setTimeout(() => {
+    alert.classList.add('hide')
+    alert.addEventListener('transitionend', () => alert.remove())
+  }, duration);
+}
+
+function shakeTiles(tiles) {
+  tiles.forEach(tile => {
+    tile.classList.add('shake')
+    tile.addEventListener('animationend', () => {
+      tile.classList.remove('shake')
+    }, {once: true})
+  });
+}
