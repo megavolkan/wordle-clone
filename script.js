@@ -15371,7 +15371,14 @@ function submitGuess() {
     return
   }
 
-  
+  const guess = activeTiles.reduce((word, tile) => {
+    return word + tile.dataset.letter
+  }, "")
+  if (!dictionary.includes(guess)) {
+    showAlert('Not in dictionary')
+    shakeTiles(activeTiles)
+    return
+  }
 }
 
 function getActiveTiles() {
