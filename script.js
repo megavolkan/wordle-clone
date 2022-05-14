@@ -15292,6 +15292,7 @@ const dictionary = [
 ]
 
 const guessGrid = document.querySelector('[data-guess-grid]')
+const keyboard = document.querySelector('[data-keyboard]')
 const WORD_LENGTH = 5
 
 const alertContainer = document.querySelector('[data-alert-container]')
@@ -15374,11 +15375,20 @@ function submitGuess() {
   const guess = activeTiles.reduce((word, tile) => {
     return word + tile.dataset.letter
   }, "")
+
   if (!dictionary.includes(guess)) {
     showAlert('Not in dictionary')
     shakeTiles(activeTiles)
     return
   }
+
+  stopInteraction()
+  activeTiles.forEach((...params) => flipTile(...params, guess))
+}
+
+function flipTile(tile, index, array, guess) {
+  const letter = tile.dataset.letter
+  const key = keyboard.querySelector(`[data-key="${letter}"]`)
 }
 
 function getActiveTiles() {
